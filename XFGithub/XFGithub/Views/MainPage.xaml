@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XFGithub"
+             x:Class="XFGithub.Views.MainPage"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="ImageDataTemplate">
+                <ViewCell>
+                    <ViewCell.View>
+                        <Frame BorderColor="Gray" Margin="3">
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Description}"
+                                       FontSize="Medium"
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" 
+                                       HorizontalOptions="StartAndExpand"
+                                       BackgroundColor="Green" />
+                                    <Button Text="Click"
+                                            Command="{Binding Path=BindingContext.FileEditPopupCommand, Source={x:Reference FilesListView}}"
+                                            CommandParameter="{Binding}" />
+                                </StackLayout>
+                                <BoxView HeightRequest="2" BackgroundColor="DarkSlateGray"/>
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell.View>
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="FileDataTemplate">
+                <ViewCell>
+                    <ViewCell.View>
+                        <Frame BorderColor="Gray" Margin="3">
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Description}" 
+                                           FontSize="Medium" 
+                                           FontAttributes="Bold" 
+                                           HorizontalTextAlignment="Center"
+                                           HorizontalOptions="StartAndExpand" />
+                                    <Button Text="Click"
+                                            Command="{Binding Path=BindingContext.FileEditPopupCommand, Source={x:Reference FilesListView}}"
+                                            />
+                                </StackLayout>
+                                <BoxView HeightRequest="2" BackgroundColor="DarkSlateGray"/>
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell.View>
+                </ViewCell>
+            </DataTemplate>
+
+            <local:FileTypeDataTemplateSelector x:Key="FileDataTemplateSelector"
+                                                ImageTemplate="{StaticResource ImageDataTemplate}"
+                                                FileTemplate="{StaticResource FileDataTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <Label Text="Welcome to Xamarin Forms and Prism!" />
+        <ListView x:Name="FilesListView"
+                              ItemsSource="{Binding Samples}"
+                              ItemTemplate="{StaticResource FileDataTemplateSelector}"
+                              HasUnevenRows="True" />
+    </StackLayout>
+
+</ContentPage>
